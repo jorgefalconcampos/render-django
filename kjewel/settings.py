@@ -25,7 +25,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', default="django-insecure-j5crf+@6@y#5*ik&-mtz*wo70*$pawrjh!281t@w@u*&6ug_pi")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ
+
+IS_LIVE = 'RENDER' in os.environ
+
+
+if IS_LIVE:
+    DEBUG = False
+else:
+    DEBUG = True
+# DEBUG = 'RENDER' not in os.environ
+
+
+
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -83,21 +95,25 @@ WSGI_APPLICATION = 'kjewel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        # Feel free to alter this value to suit your needs.
-        default='postgres://kjdb_user:qaU7tTMiUhynzkVsJ1aei8ZB4qwmAo3V@dpg-c646n546fj31g6t68og0/kjdb',
-        # default='postgresql://postgres:postgres@localhost:5432/mysite',
-        conn_max_age=600
-    )
-}
+
+if IS_LIVE:
+    DATABASES = {
+        'default': dj_database_url.config(
+            # Feel free to alter this value to suit your needs.
+            default='postgres://kjdb_user:qaU7tTMiUhynzkVsJ1aei8ZB4qwmAo3V@dpg-c646n546fj31g6t68og0/kjdb',
+            # default='postgresql://postgres:postgres@localhost:5432/mysite',
+            conn_max_age=600
+        )
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 
 
