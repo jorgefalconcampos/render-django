@@ -5,10 +5,10 @@ databases:
 
 services:
   - type: web
-    name: mysite
+    name: kjewel
     env: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn mysite.wsgi:application"
+    startCommand: "gunicorn kjewel.wsgi:application"
     envVars:
       - key: postgres://kjdb_user:qaU7tTMiUhynzkVsJ1aei8ZB4qwmAo3V@dpg-c646n546fj31g6t68og0/kjdb
         fromDatabase:
